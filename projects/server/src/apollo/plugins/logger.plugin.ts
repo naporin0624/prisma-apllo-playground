@@ -1,9 +1,9 @@
 import type { PluginDefinition } from "apollo-server-core";
 export const loggerPlugin: PluginDefinition = {
-  async requestDidStart({ logger }) {
+  async requestDidStart() {
     return {
-      async didResolveOperation(_requestContext) {
-        logger.debug(_requestContext.source);
+      async didResolveOperation() {
+        //
       },
     };
   },

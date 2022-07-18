@@ -8,7 +8,9 @@
     "strict": true,
     "types": ["vitest/globals"],
     "allowJs": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "build"
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json"}]

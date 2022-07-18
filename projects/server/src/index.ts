@@ -3,6 +3,7 @@ import { join } from "path";
 
 import { resolvers } from "@generated/type-graphql";
 import { ApolloServer } from "apollo-server";
+import { RedisCache } from "apollo-server-cache-redis";
 import { createComplexityLimitRule } from "graphql-validation-complexity-types";
 import { configure, getLogger } from "log4js";
 import { buildSchema } from "type-graphql";
@@ -36,7 +37,7 @@ const bootstrap = async () => {
     schema,
     context: externalContext,
     csrfPrevention: true,
-    cache: "bounded",
+    cache: new RedisCache({ host: "localhost", port: 6379 }),
     validationRules: [createComplexityLimitRule(1000)],
     plugins: [loggerPlugin],
     healthCheckPath: "/health-check",

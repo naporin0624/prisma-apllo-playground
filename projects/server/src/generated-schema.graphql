@@ -566,28 +566,28 @@ enum TodoScalarFieldEnum {
 
 input TodoScalarWhereInput {
   AND: [TodoScalarWhereInput!]
-  NOT: [TodoScalarWhereInput!]
-  OR: [TodoScalarWhereInput!]
   assignById: IntNullableFilter
   authorId: IntFilter
   body: StringFilter
   createdAt: DateTimeFilter
   expiredAt: DateTimeFilter
   id: IntFilter
+  NOT: [TodoScalarWhereInput!]
+  OR: [TodoScalarWhereInput!]
   title: StringFilter
   updatedAt: DateTimeFilter
 }
 
 input TodoScalarWhereWithAggregatesInput {
   AND: [TodoScalarWhereWithAggregatesInput!]
-  NOT: [TodoScalarWhereWithAggregatesInput!]
-  OR: [TodoScalarWhereWithAggregatesInput!]
   assignById: IntNullableWithAggregatesFilter
   authorId: IntWithAggregatesFilter
   body: StringWithAggregatesFilter
   createdAt: DateTimeWithAggregatesFilter
   expiredAt: DateTimeWithAggregatesFilter
   id: IntWithAggregatesFilter
+  NOT: [TodoScalarWhereWithAggregatesInput!]
+  OR: [TodoScalarWhereWithAggregatesInput!]
   title: StringWithAggregatesFilter
   updatedAt: DateTimeWithAggregatesFilter
 }
@@ -622,16 +622,6 @@ input TodoUpdateManyMutationInput {
   updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
-input TodoUpdateManyWithWhereWithoutAssginInput {
-  data: TodoUpdateManyMutationInput!
-  where: TodoScalarWhereInput!
-}
-
-input TodoUpdateManyWithWhereWithoutAuthorInput {
-  data: TodoUpdateManyMutationInput!
-  where: TodoScalarWhereInput!
-}
-
 input TodoUpdateManyWithoutAssginNestedInput {
   connect: [TodoWhereUniqueInput!]
   connectOrCreate: [TodoCreateOrConnectWithoutAssginInput!]
@@ -660,14 +650,14 @@ input TodoUpdateManyWithoutAuthorNestedInput {
   upsert: [TodoUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
-input TodoUpdateWithWhereUniqueWithoutAssginInput {
-  data: TodoUpdateWithoutAssginInput!
-  where: TodoWhereUniqueInput!
+input TodoUpdateManyWithWhereWithoutAssginInput {
+  data: TodoUpdateManyMutationInput!
+  where: TodoScalarWhereInput!
 }
 
-input TodoUpdateWithWhereUniqueWithoutAuthorInput {
-  data: TodoUpdateWithoutAuthorInput!
-  where: TodoWhereUniqueInput!
+input TodoUpdateManyWithWhereWithoutAuthorInput {
+  data: TodoUpdateManyMutationInput!
+  where: TodoScalarWhereInput!
 }
 
 input TodoUpdateWithoutAssginInput {
@@ -688,6 +678,16 @@ input TodoUpdateWithoutAuthorInput {
   updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
+input TodoUpdateWithWhereUniqueWithoutAssginInput {
+  data: TodoUpdateWithoutAssginInput!
+  where: TodoWhereUniqueInput!
+}
+
+input TodoUpdateWithWhereUniqueWithoutAuthorInput {
+  data: TodoUpdateWithoutAuthorInput!
+  where: TodoWhereUniqueInput!
+}
+
 input TodoUpsertWithWhereUniqueWithoutAssginInput {
   create: TodoCreateWithoutAssginInput!
   update: TodoUpdateWithoutAssginInput!
@@ -702,8 +702,6 @@ input TodoUpsertWithWhereUniqueWithoutAuthorInput {
 
 input TodoWhereInput {
   AND: [TodoWhereInput!]
-  NOT: [TodoWhereInput!]
-  OR: [TodoWhereInput!]
   assgin: UserRelationFilter
   assignById: IntNullableFilter
   author: UserRelationFilter
@@ -712,6 +710,8 @@ input TodoWhereInput {
   createdAt: DateTimeFilter
   expiredAt: DateTimeFilter
   id: IntFilter
+  NOT: [TodoWhereInput!]
+  OR: [TodoWhereInput!]
   title: StringFilter
   updatedAt: DateTimeFilter
 }
@@ -884,11 +884,11 @@ enum UserScalarFieldEnum {
 
 input UserScalarWhereWithAggregatesInput {
   AND: [UserScalarWhereWithAggregatesInput!]
-  NOT: [UserScalarWhereWithAggregatesInput!]
-  OR: [UserScalarWhereWithAggregatesInput!]
   createdAt: DateTimeWithAggregatesFilter
   id: IntWithAggregatesFilter
   name: StringWithAggregatesFilter
+  NOT: [UserScalarWhereWithAggregatesInput!]
+  OR: [UserScalarWhereWithAggregatesInput!]
   updatedAt: DateTimeWithAggregatesFilter
 }
 
@@ -958,13 +958,13 @@ input UserUpsertWithoutCreatedTodosInput {
 
 input UserWhereInput {
   AND: [UserWhereInput!]
-  NOT: [UserWhereInput!]
-  OR: [UserWhereInput!]
   assginTodos: TodoListRelationFilter
   createdAt: DateTimeFilter
   createdTodos: TodoListRelationFilter
   id: IntFilter
   name: StringFilter
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
   updatedAt: DateTimeFilter
 }
 
