@@ -1,12 +1,17 @@
 import "reflect-metadata";
 import { join } from "path";
 
-import { resolvers } from "@generated/type-graphql";
+import { resolvers as generetedResolvers } from "@generated/type-graphql";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { ApolloServer } from "apollo-server";
 import { RedisCache } from "apollo-server-cache-redis";
+import {
+  resolvers as scalarResolvers,
+  typeDefs as scalarTypeDefs,
+} from "graphql-scalars";
 import { createComplexityLimitRule } from "graphql-validation-complexity-types";
 import { configure, getLogger } from "log4js";
-import { buildSchema } from "type-graphql";
+import { buildTypeDefsAndResolvers } from "type-graphql";
 
 import { loggerPlugin } from "./apollo/plugins";
 import { externalContext } from "./context";
@@ -28,9 +33,13 @@ configure({
 const logger = getLogger();
 
 const bootstrap = async () => {
-  const schema = await buildSchema({
-    resolvers: [...resolvers],
+  const { resolvers, typeDefs } = await buildTypeDefsAndResolvers({
+    resolvers: [...generetedResolvers],
     emitSchemaFile: join(__dirname, "./generated-schema.graphql"),
+  });
+  const schema = makeExecutableSchema({
+    typeDefs: [typeDefs, scalarTypeDefs],
+    resolvers: [resolvers, scalarResolvers],
   });
 
   const server = new ApolloServer({
