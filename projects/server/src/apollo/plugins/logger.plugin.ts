@@ -1,10 +1,11 @@
+import { config } from "../..";
+
 import type { PluginDefinition } from "apollo-server-core";
+
 export const loggerPlugin: PluginDefinition = {
-  async requestDidStart() {
-    return {
-      async didResolveOperation() {
-        //
-      },
-    };
+  async serverWillStart(context) {
+    context.logger.info(
+      `🚀 Server ready ${config.protocol}://${config.host}:${config.port}`
+    );
   },
 };

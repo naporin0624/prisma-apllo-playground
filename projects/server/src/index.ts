@@ -10,27 +10,22 @@ import {
   typeDefs as scalarTypeDefs,
 } from "graphql-scalars";
 import { createComplexityLimitRule } from "graphql-validation-complexity-types";
-import { configure, getLogger } from "log4js";
 import { buildTypeDefsAndResolvers } from "type-graphql";
 
+import { formatResponse } from "./apollo/formatReponse";
 import { loggerPlugin } from "./apollo/plugins";
 import { externalContext } from "./context";
+import { logger } from "./logger";
 
-configure({
-  appenders: {
-    console: {
-      type: "console",
-      level: "all",
-    },
-  },
-  categories: {
-    default: {
-      appenders: ["console"],
-      level: "all",
-    },
-  },
-});
-const logger = getLogger();
+import type { ExternalContext } from "./context";
+
+export type ApplicationContext = ExternalContext;
+
+export const config = {
+  port: 4000,
+  host: "localhost",
+  protocol: "http",
+};
 
 const bootstrap = async () => {
   const { resolvers, typeDefs } = await buildTypeDefsAndResolvers({
@@ -51,15 +46,10 @@ const bootstrap = async () => {
     plugins: [loggerPlugin],
     healthCheckPath: "/health-check",
     logger,
-    formatResponse(response) {
-      return response;
-    },
+    formatResponse,
   });
 
-  server.listen({ host: "0.0.0.0", port: 4000 }, () =>
-    // eslint-disable-next-line no-console
-    console.log(`🚀 Server ready at: http://localhost:4000`)
-  );
+  server.listen(config);
 };
 
 bootstrap();
