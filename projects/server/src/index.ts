@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { join } from "path";
 
-import { resolvers as generetedResolvers } from "@generated/type-graphql";
+import { resolvers as generatedResolvers } from "@generated/type-graphql";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { ApolloServer } from "apollo-server";
 import { RedisCache } from "apollo-server-cache-redis";
@@ -29,7 +29,7 @@ export const config = {
 
 const bootstrap = async () => {
   const { resolvers, typeDefs } = await buildTypeDefsAndResolvers({
-    resolvers: [...generetedResolvers],
+    resolvers: [...generatedResolvers],
     emitSchemaFile: join(__dirname, "./generated-schema.graphql"),
   });
   const schema = makeExecutableSchema({

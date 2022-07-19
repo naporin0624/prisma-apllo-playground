@@ -1,13 +1,21 @@
+/* eslint-disable no-console */
 import { gql, useMutation } from "@apollo/client";
-import { useSyncQuery } from "@naporin0624/react-flowder/apollo";
+import { datasource, useReadData } from "@naporin0624/react-flowder";
 import { startTransition, useCallback, useState } from "react";
+import { Observable, tap, map } from "rxjs";
+
+import { client } from "../adapter/apollo";
 
 import type { Query, QueryTodosArgs } from "../graphql";
-import type { TypedDocumentNode } from "@apollo/client";
+import type {
+  TypedDocumentNode,
+  ApolloQueryResult,
+  QueryOptions,
+} from "@apollo/client";
 import type { ChangeEventHandler } from "react";
 
 const query: TypedDocumentNode<Pick<Query, "todos">, QueryTodosArgs> = gql`
-  query Todos($where: TodoWhereInput!) {
+  query Todos($where: TodoWhereInput) {
     todos(where: $where) {
       id
       title
@@ -29,6 +37,37 @@ const mutation = gql`
   }
 `;
 
+const todos$ = (
+  options?: Omit<QueryOptions<QueryTodosArgs, Pick<Query, "todos">>, "query">
+) =>
+  new Observable<ApolloQueryResult<Pick<Query, "todos">>>((subscriber) => {
+    // client watchQuery の挙動について調査する
+    const watcher = client.watchQuery({ query, ...options });
+
+    const subscription = watcher.subscribe({
+      next: (value) => {
+        subscriber.next(value);
+      },
+      error: (err) => {
+        subscriber.error(err);
+      },
+      complete: () => {
+        subscriber.complete();
+      },
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }).pipe(
+    map((x) => x.data),
+    tap((result) => {
+      console.log("@query", options);
+      console.log("@result", result);
+    })
+  );
+const todosDatasource = datasource(todos$);
+
 const Page = () => {
   const [startsWith, setStartsWith] = useState("");
   const handleStartsWithChange: ChangeEventHandler<HTMLInputElement> =
@@ -38,15 +77,12 @@ const Page = () => {
       });
     }, []);
 
-  const { todos } = useSyncQuery(query, {
-    variables: {
-      where: {
-        title: {
-          startsWith,
-        },
-      },
-    },
-  });
+  const { todos } = useReadData(
+    todosDatasource({
+      context: { debounceKey: "1" },
+      variables: { where: { title: { startsWith } } },
+    })
+  );
 
   const [handler] = useMutation(mutation, { refetchQueries: [query] });
   const create = useCallback(() => {
