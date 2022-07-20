@@ -66,7 +66,7 @@ const todos$ = (
       console.log("@result", result);
     })
   );
-const todosDatasource = datasource(todos$);
+const todosDataSource = datasource(todos$);
 
 const Page = () => {
   const [startsWith, setStartsWith] = useState("");
@@ -78,7 +78,7 @@ const Page = () => {
     }, []);
 
   const { todos } = useReadData(
-    todosDatasource({
+    todosDataSource({
       context: { debounceKey: "1" },
       variables: { where: { title: { startsWith } } },
     })
