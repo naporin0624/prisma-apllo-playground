@@ -1,13 +1,15 @@
 {
   "name": "client",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "predev": "npm run codegen",
     "dev": "vite",
     "lint": "eslint src",
     "codegen": "graphql-codegen --config codegen.yml",
-    "build": "vite build --mode production"
+    "build": "vite build --mode production",
+    "start": "npx serve build --single"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.8.1",
@@ -35,15 +37,11 @@
     "@apollo/client": "^3.6.9",
     "@naporin0624/react-flowder": "^3.3.0",
     "@naporin0624/view-utils": "^0.0.1",
-    "apollo-link-debounce": "^3.0.0",
     "apollo-link-scalars": "^4.0.1",
     "graphql": "16.5.0",
     "graphql-scalars": "^1.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zod": "^3.17.3"
-  },
-  "resolutions": {
-    "graphql": "16.5.0"
   }
 }

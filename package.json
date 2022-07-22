@@ -1,0 +1,28 @@
+{
+  "name": "prisma-apllo-playground",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "preinstall": "npm install --package-lock-only --ignore-scripts && npx npm-force-resolutions",
+    "dev": "ultra -r dev",
+    "test": "ultra -r test",
+    "build": "ultra -r build",
+    "lint": "ultra -r lint",
+    "type-check": "ultra -r type-check",
+    "start": "ultra -r start"
+  },
+  "author": "@naporin0624",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "projects/client",
+    "projects/server"
+  ],
+  "devDependencies": {
+    "ultra-runner": "^3.10.5"
+  },
+  "resolutions": {
+    "projects/client/**/graphql": "16.5.0",
+    "projects/server/**/graphql": "15.5.0"
+  }
+}

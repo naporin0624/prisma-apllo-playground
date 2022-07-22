@@ -1,9 +1,11 @@
 {
   "name": "server",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate",
+    "predev": "docker compose up -d",
     "dev": "ts-node-dev --no-notify --respawn --transpile-only --watch prisma/schema.prisma,src/**/*.ts --debounce 1000 src/index.ts",
     "lint": "eslint src",
     "test": "vitest",
@@ -11,17 +13,16 @@
     "format": "prisma format",
     "reset": "prisma migrate reset",
     "migrate": "prisma migrate dev",
-    "postinstall": "npx prisma generate",
-    "prebuild": "npx prisma generate",
     "build": "tsc",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "start": "node build"
   },
   "dependencies": {
     "@graphql-tools/schema": "^8.5.0",
-    "@prisma/client": "^4.0.0",
+    "@prisma/client": "^4.1.0",
     "apollo-server": "^3.10.0",
     "apollo-server-cache-redis": "^3.3.1",
-    "graphql": "^15.5.0",
+    "graphql": "15.5.0",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.17.0",
     "graphql-validation-complexity-types": "^0.0.1",
@@ -41,14 +42,10 @@
     "esbuild-register": "^3.3.3",
     "eslint": "^8.20.0",
     "prettier": "^2.7.1",
-    "prisma": "^4.0.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4",
     "vite": "^3.0.0",
     "vitest": "^0.18.1"
-  },
-  "resolutions": {
-    "graphql": "15.5.0"
   }
 }
